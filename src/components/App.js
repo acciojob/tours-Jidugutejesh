@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Loading from "./components/Loading";
-import Tours from "./components/Tours";
-import toursData from "./data";
+import Loading from "./Loading";
+import Tours from "./Tours";
+import toursData from "../data";
+import "../App.css";
 
 const App = () => {
   const [tours, setTours] = useState([]);
@@ -31,7 +32,7 @@ const App = () => {
       ) : (
         <Tours
           tours={tours}
-          onRemove={(id) => setTours(prev => prev.filter(t => t.id !== id))}
+          onRemove={(id) => setTours((prev) => prev.filter((t) => t.id !== id))}
         />
       )}
     </main>
