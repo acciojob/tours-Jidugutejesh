@@ -3,21 +3,17 @@ import React, { useState } from "react";
 function Tour({ tour, onRemove }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // exactly 200 characters when collapsed, with "..."
   const isLong = tour.info.length > 200;
-  const collapsed = isLong ? tour.info.slice(0, 200) + "..." : tour.info;
-  const displayText = isOpen ? tour.info : collapsed;
+  const shortText = tour.info.slice(0, 200) + "...";
+  const displayText = isOpen ? tour.info : shortText;
 
-  // test expects these exact labels
+  // ✅ MUST be EXACT text for Cypress
   const btnText = isOpen ? "Show less" : "Show more";
 
-  // test queries by these ids:
-  // initially:  #see-more-<id>
-  // after open: #see-less-<id>
-  const btnId = isOpen ? `see-less-${tour.id}` : `see-more-${tour.id}`;
-
-  // format price safely
-  const price = `$${Number(String(tour.price).replace(/,/g, ""))?.toLocaleString()}`;
+  // ✅ MUST be EXACT id format for Cypress
+  const btnId = isOpen
+    ? `see-less-${tour.id}`
+    : `see-more-${tour.id}`;
 
   return (
     <article className="tour-card">
@@ -29,18 +25,16 @@ function Tour({ tour, onRemove }) {
       />
 
       <h3>{tour.name}</h3>
-      <h5>{price}</h5>
+      <h5>${tour.price}</h5>
 
-      {/* Cypress looks for this exact id */}
+      {/* Cypress expects EXACT id */}
       <p id={`tour-item-para-${tour.id}`}>{displayText}</p>
 
       <div className="tour-actions">
-        {/* Cypress looks for #see-more-<id> first, then #see-less-<id> */}
-        <button id={btnId} onClick={() => setIsOpen((v) => !v)}>
+        <button id={btnId} onClick={() => setIsOpen(!isOpen)}>
           {btnText}
         </button>
 
-        {/* Cypress looks for this exact id for delete */}
         <button id={`delete-btn-${tour.id}`} onClick={() => onRemove(tour.id)}>
           Remove
         </button>
