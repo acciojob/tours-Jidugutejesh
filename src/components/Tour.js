@@ -29,12 +29,10 @@ function Tour({ tour, onRemove }) {
 
       <div className="tour-actions">
         {/* Cypress selector expects this id and this exact text */}
-     <button
-  id={`see-more-${tour.id}`}     // ← always this id
-  onClick={() => setIsOpen((p) => !p)}
->
-  {btnText}                      // ← text still toggles correctly
+<button id={`see-more-${tour.id}`} onClick={() => setIsOpen(!isOpen)}>
+  {btnText}
 </button>
+
 
         {/* Cypress selector expects this id */}
         <button id={`delete-btn-${tour.id}`} onClick={() => onRemove(tour.id)}>
