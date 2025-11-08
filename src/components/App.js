@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Loading from "./Loading";
 import Tours from "./Tours";
 import toursData from "../data";
-import "../App.css";
+import "../styles/App.css";
 
-const App = () => {
+function App() {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,30 +13,35 @@ const App = () => {
     setTimeout(() => {
       setTours(toursData);
       setLoading(false);
-    }, 900);
+    }, 800);
   };
 
   useEffect(() => {
     loadTours();
   }, []);
 
+  const removeTour = (id) => {
+    setTours((prev) => prev.filter((t) => t.id !== id));
+  };
+
   return (
-    <main id="main">
+    <main className="container">
+      <h1 className="app-title">Tours</h1>
+
       {loading ? (
         <Loading />
       ) : tours.length === 0 ? (
-        <div>
+        <div className="empty">
           <p>No tours left</p>
-          <button onClick={loadTours}>Refresh</button>
+          <button className="btn" onClick={loadTours}>
+            Refresh
+          </button>
         </div>
       ) : (
-        <Tours
-          tours={tours}
-          onRemove={(id) => setTours((prev) => prev.filter((t) => t.id !== id))}
-        />
+        <Tours tours={tours} onRemove={removeTour} />
       )}
     </main>
   );
-};
+}
 
 export default App;
