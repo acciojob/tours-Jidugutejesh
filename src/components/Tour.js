@@ -1,37 +1,41 @@
 import React, { useState } from "react";
 
 function Tour({ tour, onRemove }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [imgSrc, setImgSrc] = useState(tour.image);
+  const [open, setOpen] = useState(false);
 
   const short = tour.info.slice(0, 200);
-  const displayText =
-    isOpen ? tour.info : short + (tour.info.length > 200 ? "…" : "");
-  const btnLabel = isOpen ? "Show less" : "Show more";
+  const text = open ? tour.info : short + (tour.info.length > 200 ? "..." : "");
+
   const price = `$${Number(String(tour.price).replace(/,/g, ""))?.toLocaleString()}`;
 
   return (
-    <article className="tour-card">
+    <article className="tour" id={`tour-item-${tour.id}`}>
       <img
-        src={imgSrc}
+        className="tour-img"
+        src={tour.image}
         alt={tour.name}
         referrerPolicy="no-referrer"
-        onError={() => setImgSrc("https://picsum.photos/600/360?blur=2")}
-        className="tour-img"
       />
 
       <header className="tour-head">
-        <h3 className="tour-title">{tour.name}</h3>
+        <h3>{tour.name}</h3>
         <span className="tour-price">{price}</span>
       </header>
 
-      <p className="tour-info">{displayText}</p>
+      <p id={`tour-item-para-${tour.id}`}>{text}</p>
 
       <div className="tour-actions">
-        <button className="btn" onClick={() => setIsOpen((p) => !p)}>
-          {btnLabel}
+        <button
+          id={`toggle-btn-${tour.id}`}
+          onClick={() => setOpen((p) => !p)}
+        >
+          {open ? "Show less" : "Show more"}
         </button>
-        <button className="btn danger" onClick={() => onRemove(tour.id)}>
+
+        <button
+          id={`delete-btn-${tour.id}`}
+          onClick={() => onRemove(tour.id)}
+        >
           Remove
         </button>
       </div>
