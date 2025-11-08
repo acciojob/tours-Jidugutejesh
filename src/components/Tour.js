@@ -5,12 +5,9 @@ function Tour({ tour, onRemove }) {
   const [imgSrc, setImgSrc] = useState(tour.image);
 
   const short = tour.info.slice(0, 200);
-  const displayText = isOpen
-    ? tour.info
-    : short + (tour.info.length > 200 ? "…" : "");
+  const displayText =
+    isOpen ? tour.info : short + (tour.info.length > 200 ? "…" : "");
   const btnLabel = isOpen ? "Show less" : "Show more";
-
-  // price in data is a string like "1,995" -> normalize then format
   const price = `$${Number(String(tour.price).replace(/,/g, ""))?.toLocaleString()}`;
 
   return (
