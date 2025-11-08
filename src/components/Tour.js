@@ -5,8 +5,9 @@ function Tour({ tour, onRemove }) {
 
   const short = tour.info.slice(0, 200);
   const displayText = isOpen
-    ? tour.info
-    : short + (tour.info.length > 200 ? "…" : "");
+  ? tour.info
+  : short + (tour.info.length > 200 ? "..." : "");
+
 
   const btnText = isOpen ? "Show less" : "Show more"; // ← exact words for tests
   const btnId = `see-${isOpen ? "less" : "more"}-${tour.id}`; // ← Cypress looks for see-more-*
