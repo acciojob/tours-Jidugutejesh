@@ -6,11 +6,10 @@ function Tour({ tour, onRemove }) {
   const short = tour.info.slice(0, 200);
   const displayText = isOpen
     ? tour.info
-    : short + (tour.info.length > 200 ? "..." : "");
-  const btnLabel = isOpen ? "Show less" : "Show more";
+    : short + (tour.info.length > 200 ? "…" : "");
 
-  // optional: format price safely
-  const price = `$${Number(String(tour.price).replace(/,/g, ""))?.toLocaleString()}`;
+  const btnText = isOpen ? "Show less" : "Show more"; // ← exact words for tests
+  const btnId = `see-${isOpen ? "less" : "more"}-${tour.id}`; // ← Cypress looks for see-more-*
 
   return (
     <article className="tour-card">
@@ -21,31 +20,20 @@ function Tour({ tour, onRemove }) {
         referrerPolicy="no-referrer"
       />
 
-      <header className="tour-head">
-        <h3 className="tour-title">{tour.name}</h3>
-        <span className="tour-price">{price}</span>
-      </header>
+      <h3>{tour.name}</h3>
+      <h5>${Number(String(tour.price).replace(/,/g, ""))?.toLocaleString()}</h5>
 
-      <p id={`tour-item-para-${tour.id}`} className="tour-info">
-        {displayText}
-      </p>
+      {/* Cypress selector expects this id */}
+      <p id={`tour-item-para-${tour.id}`}>{displayText}</p>
 
       <div className="tour-actions">
-        {/* ✅ Cypress expects this exact id */}
-        <button
-          id={`see-more-${tour.id}`}
-          className="btn"
-          onClick={() => setIsOpen((p) => !p)}
-        >
-          {btnLabel}
+        {/* Cypress selector expects this id and this exact text */}
+        <button id={btnId} onClick={() => setIsOpen((p) => !p)}>
+          {btnText}
         </button>
 
-        {/* ✅ Cypress expects this exact id */}
-        <button
-          id={`delete-btn-${tour.id}`}
-          className="btn danger"
-          onClick={() => onRemove(tour.id)}
-        >
+        {/* Cypress selector expects this id */}
+        <button id={`delete-btn-${tour.id}`} onClick={() => onRemove(tour.id)}>
           Remove
         </button>
       </div>
