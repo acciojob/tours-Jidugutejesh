@@ -7,10 +7,8 @@ function Tour({ tour, onRemove }) {
   const shortText = tour.info.slice(0, 200) + "...";
   const displayText = isOpen ? tour.info : shortText;
 
-  // ✅ MUST be EXACT text for Cypress
   const btnText = isOpen ? "Show less" : "Show more";
 
-  // ✅ MUST be EXACT id format for Cypress
   const btnId = isOpen
     ? `see-less-${tour.id}`
     : `see-more-${tour.id}`;
@@ -27,7 +25,6 @@ function Tour({ tour, onRemove }) {
       <h3>{tour.name}</h3>
       <h5>${tour.price}</h5>
 
-      {/* Cypress expects EXACT id */}
       <p id={`tour-item-para-${tour.id}`}>{displayText}</p>
 
       <div className="tour-actions">
